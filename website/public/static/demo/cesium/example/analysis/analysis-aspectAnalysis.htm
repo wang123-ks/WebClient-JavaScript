@@ -12,13 +12,14 @@
         <script>
             'use strict';
             //定义三维视图的主要类
-            var webGlobe;
+            var webGlobe, aspectAnalysis, drawElement, viewer;
             //地图初始化函数
             function init() {
                 //构造三维视图类（视图容器div的id，三维视图设置参数）
                 webGlobe = new Cesium.WebSceneControl('GlobeView', {
                     terrainExaggeration: 1
                 });
+                viewer = webGlobe.viewer;
                 //构造第三方图层对象
                 var thirdPartyLayer = new CesiumZondy.Layer.ThirdPartyLayer({
                     viewer: webGlobe.viewer
@@ -51,18 +52,49 @@
                     pitch: -10,
                     roll: 0
                 });
-                var advancedAnalysisManager = new CesiumZondy.Manager.AdvancedAnalysisManager({
-                    viewer: webGlobe.viewer
+
+                let colors = ['#2d41d0', '#2d94d0', '#2dd0aa', '#2dd032', '#d0c32d', '#d03c2d'];
+                let steps = [0.05, 0.25, 0.45, 0.65, 0.85, 0.95];
+
+                drawElement = new Cesium.DrawElement(viewer);
+                drawElement.startDrawingPolygon({
+                    // 绘制完成回调函数
+                    callback: (positions) => {
+                        remove();
+
+                        aspectAnalysis = new Cesium.TerrainAnalyse(viewer, {
+                            aspectRampColor: colors,
+                            aspectRamp: steps
+                        });
+
+                        viewer.scene.globe.enableLighting = true;
+                        // 调高亮度
+                        const stages = viewer.scene.postProcessStages;
+                        viewer.scene.brightness = stages.add(new Cesium.PostProcessStageLibrary.createBrightnessStage());
+                        viewer.scene.brightness.enabled = true;
+                        viewer.scene.brightness.uniforms.brightness = 1.2;
+
+                        aspectAnalysis.enableContour(false);
+                        aspectAnalysis.updateMaterial('aspect');
+                        aspectAnalysis.changeAnalyseArea(positions);
+                    }
                 });
-                webGlobe.viewer.scene.globe.depthTestAgainstTerrain = true;
-                var aspectAna = advancedAnalysisManager.createAspectAnalysis([
-                    new Cesium.Color(36 / 255, 60 / 255, 232 / 255),
-                    new Cesium.Color(36 / 255, 123 / 255, 232 / 255),
-                    new Cesium.Color(36 / 255, 178 / 255, 232 / 255),
-                    new Cesium.Color(184 / 255, 232 / 255, 36 / 255),
-                    new Cesium.Color(232 / 255, 190 / 255, 36 / 255),
-                    new Cesium.Color(232 / 255, 117 / 255, 36 / 255)
-                ]);
+            }
+
+            function remove() {
+                if (aspectAnalysis) {
+                    aspectAnalysis.updateMaterial('none');
+                    aspectAnalysis = null;
+                }
+                if (drawElement) {
+                    drawElement.stopDrawing();
+                    drawElement = null;
+                }
+
+                if (viewer.scene.brightness) {
+                    viewer.scene.globe.enableLighting = false;
+                    viewer.scene.brightness.enabled = false;
+                }
             }
         </script>
     </head>

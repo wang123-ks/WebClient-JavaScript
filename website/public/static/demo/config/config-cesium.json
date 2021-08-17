@@ -87,6 +87,22 @@
                     "update": "最后更新时间：2020-06-17"
                 },
                 {
+                    "name": "坡向分析-法向地形",
+                    "file": "analysis-aspectAnalysis-normal",
+                    "diffcult": "3",
+                    "detail": "",
+                    "icon": "analysis-aspectAnalysis-normal.png",
+                    "update": "最后更新时间：2021-08-17"
+                },
+                {
+                    "name": "坡度分析-法向地形",
+                    "file": "analysis-slopeAnalysis-normal",
+                    "diffcult": "3",
+                    "detail": "",
+                    "icon": "analysis-slopeAnalysis-normal.png",
+                    "update": "最后更新时间：2021-08-17"
+                },
+                {
                     "name": "控高分析",
                     "file": "heightLimited",
                     "diffcult": "2",

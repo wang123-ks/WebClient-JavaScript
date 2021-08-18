@@ -21,7 +21,7 @@
             min-width: 200px;
             max-height: 123px;
             right: 10px;
-            top: 80px;
+            top: 120px;
             /*在地图容器中的层，要设置z-index的值让其显示在地图上层*/
             z-index: 2001;
             color: #ffffff;
@@ -49,9 +49,10 @@
     </style>
     <script type="text/javascript">
         var map = null;
-        var resultBaseUrl = "gdbp://MapGisLocal/OpenLayerVecterMap/sfcls/"; //缓存结果图层的基地址
+        var resultBaseUrl = "gdbp://MapGisLocalPlus/OpenLayerVecterMap/sfcls/"; //缓存结果图层的基地址
         var resultLayerArr = new Array();
         var tgtlayer;
+        var { protocol, ip, port } = window.webclient;
         function init() {
             //初始化地图容器
             map = new ol.Map({
@@ -87,9 +88,9 @@
                     projection:"EPSG:4326"
                 })
             );
-            tgtlayer = new Zondy.Map.GdbpLayer("世界政区",["gdbp://MapGisLocal/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界政区"], {
-                    ip: 'develop.smaryun.com',
-                    port: '6163', //访问IGServer的端口号，.net版为6163，Java版为8089,
+            tgtlayer = new Zondy.Map.GdbpLayer("世界政区",["gdbp://MapGisLocalPlus/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界政区"], {
+                ip:`${ip}`,
+                port: `${port}`,  //访问IGServer的端口号，.net版为6163，Java版为8089,
 
                 }
             );
@@ -143,17 +144,19 @@
         //执行圆裁剪分析
         function circleClip()
         {
+            //显示进度条
+            startPressBar();
             var resultname = resultBaseUrl + "clipByCircleAnalysisResultLayer" + getCurentTime();
             //实例化Zondy.Service.ClipByCircle类
             var clipParam = new Zondy.Service.ClipByCircle({
-                ip: "develop.smaryun.com",
-                port: "6163",    //访问IGServer的端口号，.net版为6163，Java版为8089,
+                ip:`${ip}`,
+                port: `${port}`,    //访问IGServer的端口号，.net版为6163，Java版为8089,
                 //设置圆心坐标
                 center: "88.62, 25.09",
                 //设置圆半径长度
                 radius: 15,
                 //设置被裁剪图层URL
-                srcInfo: "gdbp://MapGisLocal/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界政区",
+                srcInfo: "gdbp://MapGisLocalPlus/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界政区",
                 //设置结果URL
                 desInfo: resultname
             });
@@ -164,14 +167,16 @@
         //执行多边形裁剪分析
         function polygonClip()
         {
+            //显示进度条
+            startPressBar();
             var resultname = resultBaseUrl + "clipByPolyAnalysisResultLayer" + getCurentTime();
             //实例化ClipByPolygon类
             var clipParam = new Zondy.Service.ClipByPolygon({
-                ip: "develop.smaryun.com",
-                port: "6163"    //访问IGServer的端口号，.net版为6163，Java版为8089
+                ip:`${ip}`,
+                port: `${port}`,   //访问IGServer的端口号，.net版为6163，Java版为8089
             });
             //设置被裁剪图层URL
-            clipParam.srcInfo = "gdbp://MapGisLocal/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界政区";
+            clipParam.srcInfo = "gdbp://MapGisLocalPLus/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界政区";
             //设置结果URL
             clipParam.desInfo = resultname;
             //多边形点坐标串
@@ -182,6 +187,8 @@
 
         //分析成功后的回调
         function AnalysisSuccess(data) {
+            //停止进度条
+            stopPressBar();
             if (!data.results) {
                 alert("裁剪失败，请检查参数！");
             }
@@ -190,8 +197,8 @@
                     var resultLayerUrl = data.results[0].Value || data.results[0].value;
                     //将结果图层添加到地图视图中显示
                     var resultLayer = new Zondy.Map.GdbpLayer("MapGIS IGS BuffAnalyResultLayer", [resultBaseUrl+resultLayerUrl], {
-                        ip: "develop.smaryun.com",
-                        port: "6163",    //访问IGServer的端口号，.net版为6163，Java版为8089,
+                        ip:`${ip}`,
+                        port: `${port}`,     //访问IGServer的端口号，.net版为6163，Java版为8089,
                         isBaseLayer: false
                     });
                     map.addLayer(resultLayer);
@@ -311,6 +318,18 @@
                 element.innerText = text;
             }
         }
+
+
+        /*===========================================进度条===================================================*/
+        //停止进度条
+        function stopPressBar() {
+            document.getElementById('preview').style.display = 'none';
+        }
+
+        //开始进度条动画
+        function startPressBar() {
+            document.getElementById('preview').style.display = 'block';
+        }
     </script>
 </head>
 
@@ -339,6 +358,11 @@
         <li  onclick="deleteAll()"><span class="item3"></span><i>清除</i>
         </li>
     </ul>
+</div>
+<div id='preview'>
+    <img src='static/assets/graphic-image/39-1.gif' alt='' /><br />
+    <br />
+    <span>正在分析，请稍候</span>
 </div>
 <script>
     function switchMenuStatus(div, menuitemFrameID) {

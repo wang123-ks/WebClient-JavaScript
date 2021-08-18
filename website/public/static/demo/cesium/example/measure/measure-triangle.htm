@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./static/demo/cesium/style.css" />
     <script>
         //定义三维视图的主要类
-        var webGlobe;
+        var webGlobe4;
         //定义三维瓦片类
         var landscapeLayer;
         // 三角测量工具
@@ -21,11 +21,11 @@
         //地图初始化函数
         function init() {
             //构造三维视图类（视图容器div的id，三维视图设置参数）
-            webGlobe = new Cesium.WebSceneControl('GlobeView', {});
+            webGlobe4 = new Cesium.WebSceneControl('GlobeView', {});
 
             //构造第三方图层对象
             var thirdPartyLayer = new CesiumZondy.Layer.ThirdPartyLayer({
-                viewer: webGlobe.viewer
+                viewer: webGlobe4.viewer
             });
             //加载天地图
             var tdtLayer = thirdPartyLayer.appendTDTuMap({
@@ -39,7 +39,7 @@
 
             //构造M3D模型层管理对象
             var m3dLayer = new CesiumZondy.Layer.M3DLayer({
-                viewer: webGlobe.viewer
+                viewer: webGlobe4.viewer
             });
             //加载M3D地图文档（服务地址，配置参数）
             var {
@@ -54,15 +54,15 @@
 
             //初始化视图功能管理类
             var sceneManager = new CesiumZondy.Manager.SceneManager({
-                viewer: webGlobe.viewer
+                viewer: webGlobe4.viewer
             });
             //视点跳转
-            sceneManager.flyToEx(114.40298522106733, 30.465568703723072, {
-                height: 100.85856618500283,
-                heading: -45.4940479913348135,
-                pitch: -15,
-                roll: 0
-            });
+            // sceneManager.flyToEx(114.40298522106733, 30.465568703723072, {
+            //     height: 100.85856618500283,
+            //     heading: -45.4940479913348135,
+            //     pitch: -15,
+            //     roll: 0
+            // });
 
             //调用三角测量函数
             triangulationMeasure();
@@ -70,10 +70,10 @@
 
         /*三角测量*/
         function triangulationMeasure() {
-            if (triangulationTool == undefined) {
+            //if (triangulationTool == undefined) {
                 //创建三角测量工具
-                triangulationTool = new Cesium.TriangulationTool(webGlobe.viewer);
-            }
+                triangulationTool = new Cesium.TriangulationTool(webGlobe4.viewer);
+            //}
             //开始三角测量
             triangulationTool.startTool();
         }

@@ -53,6 +53,7 @@
             var map = null;
             var vectorLayer = null;
             var drawTool = null;
+            var { protocol, ip, port } = window.webclient;
 
             function init() {
                 var tdk = '4c27d6e0e8a90715b23a989d42272fd8'; //天地图密钥
@@ -86,10 +87,10 @@
                 //加载地图文档图层
                 vectorLayer = new Zondy.Map.GdbpLayer(
                     'MapGIS IGS VectorLayer',
-                    ['gdbp://MapGisLocal/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer'],
+                    ['gdbp://MapGISLocalPlus/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer'],
                     {
-                        ip: 'develop.smaryun.com',
-                        port: '6163' //访问IGServer的端口号，.net版为6163，Java版为8089
+                        ip:`${ip}`,
+                        port: `${port}`//访问IGServer的端口号，.net版为6163，Java版为8089
                     }
                 );
 
@@ -232,10 +233,10 @@
                 featureSet.addFeature(newFeature);
                 //创建一个要素编辑服务对象
                 var editLayerFeature = new Zondy.Service.EditLayerFeature(
-                    'gdbp://MapGisLocal/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer',
+                    'gdbp://MapGISLocalPlus/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer',
                     {
-                        ip: 'develop.smaryun.com',
-                        port: '6163' //访问IGServer的端口号，.net版为6163，Java版为8089
+                        ip:`${ip}`,
+                        port: `${port}` //访问IGServer的端口号，.net版为6163，Java版为8089
                     }
                 );
                 editLayerFeature.add(featureSet, onAddRegSuccess);
@@ -287,7 +288,7 @@
                 });
                 //实例化查询参数对象
                 var queryParam = new Zondy.Service.QueryByLayerParameter(
-                    'gdbp://MapGisLocal/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer',
+                    'gdbp://MapGISLocalPlus/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer',
                     {
                         r: Math.random(),
                         geometry: pointObj,
@@ -303,8 +304,8 @@
                 queryParam.recordNumber = 20;
                 //实例化矢量图层查询服务对象
                 var queryService = new Zondy.Service.QueryLayerFeature(queryParam, {
-                    ip: 'develop.smaryun.com',
-                    port: '6163' //访问IGServer的端口号，.net版为6163，Java版为8089
+                    ip:`${ip}`,
+                    port: `${port}` //访问IGServer的端口号，.net版为6163，Java版为8089
                 });
 
                 //执行查询操作，querySuccess为查询回调函数
@@ -335,10 +336,10 @@
             //删除线要素
             function deleteRegByService(featureIds) {
                 var deleteService = new Zondy.Service.EditLayerFeature(
-                    'gdbp://MapGisLocal/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer',
+                    'gdbp://MapGISLocalPlus/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer',
                     {
-                        ip: 'develop.smaryun.com',
-                        port: '6163' //访问IGServer的端口号，.net版为6163，Java版为8089
+                        ip:`${ip}`,
+                        port: `${port}` //访问IGServer的端口号，.net版为6163，Java版为8089
                     }
                 );
                 deleteService.deletes(featureIds, onDeleteSuccess);
@@ -390,7 +391,7 @@
                 });
                 //实例化查询参数对象
                 var queryParam = new Zondy.Service.QueryByLayerParameter(
-                    'gdbp://MapGisLocal/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer',
+                    'gdbp://MapGISLocalPlus/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer',
                     {
                         r: Math.random(),
                         geometry: pointObj,
@@ -406,8 +407,8 @@
                 queryParam.recordNumber = 20;
                 //实例化矢量图层查询服务对象
                 var queryService = new Zondy.Service.QueryLayerFeature(queryParam, {
-                    ip: 'develop.smaryun.com',
-                    port: '6163' //访问IGServer的端口号，.net版为6163，Java版为8089
+                    ip:`${ip}`,
+                    port: `${port}` //访问IGServer的端口号，.net版为6163，Java版为8089
                 });
                 //执行查询操作，querySuccess为查询回调函数
                 queryService.query(querySuccess_Update, queryError);
@@ -481,10 +482,10 @@
                 resultReg.SFEleArray[0].AttValue[8] = document.getElementById('name').value;
                 //创建一个要素编辑服务对象
                 var editLayerFeature = new Zondy.Service.EditLayerFeature(
-                    'gdbp://MapGisLocal/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer',
+                    'gdbp://MapGISLocalPlus/OpenLayerVecterMap/ds/地图编辑缓存经纬度/sfcls/myreglayer',
                     {
-                        ip: 'develop.smaryun.com',
-                        port: '6163' //访问IGServer的端口号，.net版为6163，Java版为8089
+                        ip:`${ip}`,
+                        port: `${port}` //访问IGServer的端口号，.net版为6163，Java版为8089
                     }
                 );
                 editLayerFeature.update(resultReg, onRegUpdateSuccess);

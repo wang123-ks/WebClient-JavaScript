@@ -124,7 +124,7 @@
     </style>
 
     <script type="text/javascript">
-       
+        var { protocol, ip, port } = window.webclient;
         var map = null;
         var drawLayer = null;
         function init() {
@@ -184,7 +184,7 @@
             queryStruct.IncludeWebGraphic = false;
             //实例化查询参数对象
             var objectIds = document.getElementById("Conditions").value;
-            var queryParam = new Zondy.Service.QueryByLayerParameter("gdbp://MapGisLocal/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界政区", {
+            var queryParam = new Zondy.Service.QueryByLayerParameter("gdbp://MapGISLocalPlus/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界政区", {
                 objectIds: objectIds,
                 resultFormat: "json",
                 struct: queryStruct
@@ -196,8 +196,8 @@
             
             //实例化地图文档查询服务对象
             var queryService = new Zondy.Service.QueryLayerFeature(queryParam,{
-                ip: "develop.smaryun.com",
-                port: "6163"    //访问IGServer的端口号，.net版为6163，Java版为8089
+                ip:`${ip}`,
+                port: `${port}`   //访问IGServer的端口号，.net版为6163，Java版为8089
             });
             //执行查询操作，querySuccess为查询回调函数
             queryService.query(querySuccess, queryError);

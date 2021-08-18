@@ -124,7 +124,7 @@
     </style>
 
     <script type="text/javascript">
-       
+        var { protocol, ip, port } = window.webclient;
         var map = null;
         var drawLayer = null;
         var drawSource = null;
@@ -232,8 +232,8 @@
             queryParam.recordNumber = 20;
             //实例化地图文档查询服务对象
             var queryService = new Zondy.Service.QueryDocFeature(queryParam, "WorldJWVector", "1", {
-                ip: "develop.smaryun.com",
-                port: "6163"    //访问IGServer的端口号，.net版为6163，Java版为8089
+                ip:`${ip}`,
+                port: `${port}`    //访问IGServer的端口号，.net版为6163，Java版为8089
             });
             //执行查询操作，querySuccess为查询回调函数
             queryService.query(querySuccess, queryError);

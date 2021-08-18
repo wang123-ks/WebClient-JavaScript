@@ -127,6 +127,7 @@
        
         var map = null;
         var drawLayer = null;
+        var { protocol, ip, port } = window.webclient;
         function init() {
             var tdk = "4c27d6e0e8a90715b23a989d42272fd8";   //天地图密钥
             //加载天地图瓦片图层数据
@@ -195,8 +196,8 @@
             queryParam.where = document.getElementById("Conditions").value;
             //实例化地图文档查询服务对象
             var queryService = new Zondy.Service.QueryDocFeature(queryParam, "WorldJWVector", 1, {
-                ip: "develop.smaryun.com",
-                port: "6163"    //访问IGServer的端口号，.net版为6163，Java版为8089
+                ip:`${ip}`,
+                port: `${port}`  //访问IGServer的端口号，.net版为6163，Java版为8089
             });
             //执行查询操作，querySuccess为查询回调函数
             queryService.query(querySuccess, queryError);

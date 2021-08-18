@@ -140,3 +140,21 @@
     overflow: hidden;
     background-color: #e5e5e5;
 }
+
+#preview {
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    display: none;
+    text-align: center;
+    font-weight: bold;
+    left: 50%;
+    right: 0;
+    top: 50%;
+    bottom: 0;
+    margin-left: -50px;
+    margin-right: auto;
+    margin-top: -50px;
+    margin-bottom: auto;
+    z-index: 1000;
+}

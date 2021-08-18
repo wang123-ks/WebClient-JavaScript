@@ -101,8 +101,8 @@
 
     load();
     window.webclient = {
-        ip: 'develop.smaryun.com',
-        port: 6163,
+        ip: '192.168.23.113',
+        port: 8089,
         protocol: 'http'
     };
     window.isLocal = false;

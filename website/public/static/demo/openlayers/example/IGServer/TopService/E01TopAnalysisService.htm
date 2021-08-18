@@ -32,6 +32,7 @@
         var firstGeomZD = null;
         var secondGeomZD = null;
         var tdk = "4c27d6e0e8a90715b23a989d42272fd8";   //天地图密钥
+        var { protocol, ip, port } = window.webclient;
         function init() {
             //初始化地图容器
             map = new ol.Map({
@@ -95,8 +96,8 @@
             if(firstGeomZD!=null && secondGeomZD!=null)
             {
                 var topParam = new Zondy.Service.TopAnalysis({
-                    ip: "develop.smaryun.com",
-                    port: "6163"    //访问IGServer的端口号，.net版为6163，Java版为8089
+                    ip:`${ip}`,
+                    port: `${port}`    //访问IGServer的端口号，.net版为6163，Java版为8089
                 });
                 switch(firstGeomZD.gtype)
                 {

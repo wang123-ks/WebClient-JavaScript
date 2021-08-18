@@ -52,7 +52,7 @@
         <script type="text/javascript">
             var map = null;
             var MapDocLayer = null;
-
+            var { protocol, ip, port } = window.webclient;
             function init() {
                 var tdk = '4c27d6e0e8a90715b23a989d42272fd8'; //天地图密钥
                 //加载天地图瓦片图层数据
@@ -84,8 +84,8 @@
 
                 //加载地图文档图层
                 MapDocLayer = new Zondy.Map.MapDocTileLayer('MapGIS IGS VectorMapdocLayer', 'FeatureEditForPoint', {
-                    ip: 'develop.smaryun.com',
-                    port: '6163', //访问IGServer的端口号，.net版为6163，Java版为8089,
+                    ip:`${ip}`,
+                    port: `${port}`, //访问IGServer的端口号，.net版为6163，Java版为8089,
                     isBaseLayer: true
                     //extent: extent
                 });
@@ -178,8 +178,8 @@
                 featureSet.addFeature(feature);
                 //创建一个编辑服务类
                 var editService = new Zondy.Service.EditDocFeature('FeatureEditForPoint', 0, {
-                    ip: 'develop.smaryun.com',
-                    port: '6163'
+                    ip:`${ip}`,
+                    port: `${port}`,
                 });
                 //执行添加点要素功能
                 editService.add(featureSet, onAddPntSuccess);
@@ -243,8 +243,8 @@
                 queryParam.recordNumber = 20;
                 //实例化地图文档查询服务对象
                 var queryService = new Zondy.Service.QueryDocFeature(queryParam, 'FeatureEditForPoint', '0', {
-                    ip: 'develop.smaryun.com',
-                    port: '6163' //访问IGServer的端口号，.net版为6163，Java版为8089
+                    ip:`${ip}`,
+                    port: `${port}`, //访问IGServer的端口号，.net版为6163，Java版为8089
                 });
                 //执行查询操作，querySuccess为查询回调函数
                 queryService.query(querySuccess, queryError);
@@ -273,8 +273,8 @@
             function deletePoint(featureIds) {
                 //选择点所在的地图文档
                 var deleteService = new Zondy.Service.EditDocFeature('FeatureEditForPoint', 0, {
-                    ip: 'develop.smaryun.com',
-                    port: '6163' //访问IGServer的端口号，.net版为6163，Java版为8089
+                    ip:`${ip}`,
+                    port: `${port}`, //访问IGServer的端口号，.net版为6163，Java版为8089
                 });
                 deleteService.deletes(featureIds, onDeleteSuccess);
             }
@@ -338,8 +338,8 @@
                 queryParam.recordNumber = 20;
                 //实例化地图文档查询服务对象
                 var queryService = new Zondy.Service.QueryDocFeature(queryParam, 'FeatureEditForPoint', '0', {
-                    ip: 'develop.smaryun.com',
-                    port: '6163' //访问IGServer的端口号，.net版为6163，Java版为8089
+                    ip:`${ip}`,
+                    port: `${port}`, //访问IGServer的端口号，.net版为6163，Java版为8089
                 });
                 //执行查询操作，querySuccess为查询回调函数
                 queryService.query(querySuccess_Update, queryError);
@@ -401,8 +401,8 @@
                 resultPoint.SFEleArray[0].AttValue[3] = document.getElementById('POPULATION').value;
                 //创建一个编辑服务类
                 var editService = new Zondy.Service.EditDocFeature('FeatureEditForPoint', '0', {
-                    ip: 'develop.smaryun.com',
-                    port: '6163' //访问IGServer的端口号，.net版为6163，Java版为8089
+                    ip:`${ip}`,
+                    port: `${port}`, //访问IGServer的端口号，.net版为6163，Java版为8089
                 });
                 editService.update(resultPoint, onPntUpdateSuccess);
             }

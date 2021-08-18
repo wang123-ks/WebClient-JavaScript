@@ -1,7 +1,7 @@
 (function () {
   var r = new RegExp("(^|(.*?\\/))(include-openlayers-local\.js)(\\?|$)"),
-    s = document.getElementsByTagName('script'),
-    targetScript, targetUrl;
+      s = document.getElementsByTagName('script'),
+      targetScript, targetUrl;
   for (var i = 0; i < s.length; i++) {
     var src = s[i].getAttribute('src');
     if (src) {
@@ -116,8 +116,8 @@
 
   load();
   window.webclient = {
-    ip: "develop.smaryun.com",
-    port: 6163,
+    ip: "192.168.23.113",
+    port: 8089,
     protocol: "http",
   };
   window.isLocal = false;

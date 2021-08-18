@@ -20,7 +20,7 @@
             min-width: 200px;
             max-height: 102px;
             right: 10px;
-            top: 80px;
+            top: 120px;
             /*在地图容器中的层，要设置z-index的值让其显示在地图上层*/
             z-index: 2001;
             color: #ffffff;
@@ -48,8 +48,9 @@
     </style>
     <script type="text/javascript">
         var map = null
-        var resultBaseUrl = 'gdbp://MapGisLocal/OpenLayerVecterMap/sfcls/' //缓存结果图层的基地址
+        var resultBaseUrl = 'gdbp://MapGisLocalPLus/OpenLayerVecterMap/sfcls/' //缓存结果图层的基地址
         var resultLayerArr = new Array()
+        var { protocol, ip, port } = window.webclient;
         function init() {
             //初始化地图容器
             map = new ol.Map({
@@ -89,9 +90,9 @@
                 })
             )
             map.addLayer(
-                new Zondy.Map.GdbpLayer("世界河流_1",["gdbp://MapGisLocal/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界河流_1"], {
-                    ip: 'develop.smaryun.com',
-                    port: '6163', //访问IGServer的端口号，.net版为6163，Java版为8089
+                new Zondy.Map.GdbpLayer("世界河流_1",["gdbp://MapGisLocalPlus/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界河流_1"], {
+                    ip:`${ip}`,
+                    port: `${port}`, //访问IGServer的端口号，.net版为6163，Java版为8089
                     //extent: extent,
                 })
             )
@@ -99,9 +100,11 @@
         }
         //执行单圈缓冲区分析
         function bufferOneRing() {
+            //显示进度条
+            startPressBar();
             var clsBufBySR = new Zondy.Service.ClassBufferBySingleRing({
-                ip: 'develop.smaryun.com',
-                port: '6163', //访问IGServer的端口号，.net版为6163，Java版为8089,
+                ip:`${ip}`,
+                port: `${port}`, //访问IGServer的端口号，.net版为6163，Java版为8089,
                 //缓冲时要素左侧缓冲半径
                 leftRad: 0.1,
                 //缓冲时要素右侧缓冲半径
@@ -110,7 +113,7 @@
                 isByAtt: false,
             })
 
-            clsBufBySR.srcInfo = 'gdbp://MapGisLocal/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界河流_1'
+            clsBufBySR.srcInfo = 'gdbp://MapGisLocalPlus/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界河流_1'
             var resultname = 'singleBuffAnalysisResultLayer' + getCurentTime()
             clsBufBySR.desInfo = resultBaseUrl + resultname
 
@@ -119,14 +122,16 @@
         }
 
         function bufferMulRings() {
+            //显示进度条
+            startPressBar();
             var clsBufByMR = new Zondy.Service.ClassBufferByMultiplyRing({
-                ip: 'develop.smaryun.com',
-                port: '6163', //访问IGServer的端口号，.net版为6163，Java版为8089,
+                ip:`${ip}`,
+                port: `${port}`,//访问IGServer的端口号，.net版为6163，Java版为8089,
                 //多圈缓冲分析各圈的缓冲半径
                 radiusStr: '0.01,0.05,0.1',
             })
             //调用Zondy.Service.ClassBufferBase基类公共属性
-            clsBufByMR.srcInfo = 'gdbp://MapGisLocal/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界河流_1'
+            clsBufByMR.srcInfo = 'gdbp://MapGisLocalPlus/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界河流_1'
             var resultname = 'multiBuffAnalysisResultLayer' + getCurentTime()
             clsBufByMR.desInfo = resultBaseUrl + resultname
             //调用基类Zondy.Service.AnalysisBase的execute方法执行类缓冲分析，AnalysisSuccess为回调函数
@@ -135,6 +140,8 @@
 
         //分析成功后的回调
         function AnalysisSuccess(data) {
+            //停止进度条
+            stopPressBar();
             if (!data.results) {
                 alert('缓冲失败，请检查参数！')
             } else {
@@ -142,8 +149,8 @@
                     var resultLayerUrl = data.results[0].Value || data.results[0].value
                     //将结果图层添加到地图视图中显示
                     var resultLayer = new Zondy.Map.GdbpLayer('MapGIS IGS BuffAnalyResultLayer', [resultBaseUrl + resultLayerUrl], {
-                        ip: 'develop.smaryun.com',
-                        port: '6163', //访问IGServer的端口号，.net版为6163，Java版为8089,
+                        ip:`${ip}`,
+                        port: `${port}`, //访问IGServer的端口号，.net版为6163，Java版为8089,
                         isBaseLayer: false,
                     })
                     map.addLayer(resultLayer)
@@ -258,6 +265,17 @@
                 element.innerText = text;
             }
         }
+
+
+        /*===========================================进度条===================================================*/
+        //停止进度条
+        function stopPressBar() {
+            document.getElementById("preview").style.display = "none";
+        }
+        //开始进度条动画
+        function startPressBar() {
+            document.getElementById("preview").style.display = "block";
+        }
     </script>
 </head>
 
@@ -280,6 +298,11 @@
         <li class="divider"></li>
         <li onclick="deleteAll()"><span class="item3"></span><i>清除</i></li>
     </ul>
+</div>
+<div id="preview">
+    <img src="static/assets/graphic-image/39-1.gif" alt='' /><br />
+    <br />
+    <span>正在分析，请稍候</span>
 </div>
 <script>
     function switchMenuStatus(div, menuitemFrameID) {

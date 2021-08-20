@@ -5,9 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <!--当前示例页面样式表引用-->
-    <link rel="stylesheet" href="../style.css" />
-    <script include="jquery" src="../static/libs/include-lib-local.js"></script>
-    <script src="../static/libs/include-openlayers-local.js"></script>
+    <link rel="stylesheet" href="./static/demo/openlayers/example/style.css" />
+    <script include="jquery" src="./static/libs/include-lib-local.js"></script>
+    <script src="./static/libs/include-openlayers-local.js"></script>
     <style type="text/css">
         #mapCon {
             width: 100%;
@@ -52,6 +52,7 @@
         var resultBaseUrl = "gdbp://MapGisLocalPlus/OpenLayerVecterMap/sfcls/"; //缓存结果图层的基地址
         var resultLayerArr = new Array();
         var tgtlayer;
+        var { protocol, ip, port } = window.webclient;
         function init() {
             //初始化地图容器
             map = new ol.Map({
@@ -88,8 +89,8 @@
                 })
             );
             tgtlayer = new Zondy.Map.GdbpLayer("世界政区",["gdbp://MapGisLocalPlus/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界政区"], {
-                    ip: '192.168.23.113',
-                    port: '8089', //访问IGServer的端口号，.net版为6163，Java版为8089,
+                ip:`${ip}`,
+                port: `${port}`,  //访问IGServer的端口号，.net版为6163，Java版为8089,
 
                 }
             );
@@ -157,8 +158,7 @@
                 //设置被裁剪图层URL
                 srcInfo: "gdbp://MapGisLocalPlus/OpenLayerVecterMap/ds/世界地图经纬度/sfcls/世界政区",
                 //设置结果URL
-                desInfo: resultname,
-                infoOptType:2
+                desInfo: resultname
             });
             //调用基类的execute方法，执行圆裁剪分析。AnalysisSuccess为结果回调函数
             clipParam.execute(AnalysisSuccess,"post",false,"json",()=>{});

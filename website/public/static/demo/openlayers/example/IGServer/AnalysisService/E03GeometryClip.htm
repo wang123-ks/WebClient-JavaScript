@@ -285,6 +285,7 @@
                 });
                 //将绘制层添加到地图容器中
                 map.addLayer(vectorLayer);
+                resultLayerArr.push(vectorLayer);
             }, () => {
 
             });
@@ -301,18 +302,16 @@
             else {
                 if (data.results.length != 0) {
                     var resultLayerUrl = data.results[0].Value || data.results[0].value;
-                    //将结果图层添加到地图视图中显示
-                    var resultLayer = new Zondy.Map.GdbpLayer("MapGIS IGS BuffAnalyResultLayer", [resultBaseUrl+resultLayerUrl], {
-                        ip:`${ip}`,
-                        port: `${port}`,     //访问IGServer的端口号，.net版为6163，Java版为8089,
-                        isBaseLayer: false
-                    });
-
+                    // //将结果图层添加到地图视图中显示
+                    // var resultLayer = new Zondy.Map.GdbpLayer("MapGIS IGS BuffAnalyResultLayer", [resultBaseUrl+resultLayerUrl], {
+                    //     ip:`${ip}`,
+                    //     port: `${port}`,     //访问IGServer的端口号，.net版为6163，Java版为8089,
+                    //     isBaseLayer: false
+                    // });
                     let gdbp = resultBaseUrl+resultLayerUrl;
                     changeGdbpStyle(gdbp);
-
-                    map.addLayer(resultLayer);
-                    resultLayerArr.push(resultLayer);
+                    // map.addLayer(resultLayer);
+                    // resultLayerArr.push(resultLayer);
                 }
             }
         }

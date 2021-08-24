@@ -165,8 +165,7 @@
 
         }
         //执行多边形裁剪分析
-        function polygonClip()
-        {
+        function polygonClip(){
             //显示进度条
             startPressBar();
             var resultname = resultBaseUrl + "clipByPolyAnalysisResultLayer" + getCurentTime();
@@ -183,6 +182,23 @@
             clipParam.strPos = "0.46, 30.1,11.48, 6.22,36.73, 7.6,58.77, 25.51,41.33, 49.39, 0.46, 30.1";
             //调用基类的execute方法，执行多边形裁剪分析。AnalysisSuccess为结果回调函数
             clipParam.execute(AnalysisSuccess, "post", false, "json", ()=>{});
+        }
+
+        //分析成功后的回调
+        function AnalysisSuccess(data) {
+            //停止进度条
+            stopPressBar();
+            if (!data.results) {
+                alert("裁剪失败，请检查参数！");
+            }
+            else {
+                if (data.results.length != 0) {
+                    var resultLayerUrl = data.results[0].Value || data.results[0].value;
+                    let gdbp = resultBaseUrl+resultLayerUrl;
+                    changeGdbpStyle(gdbp);
+
+                }
+            }
         }
 
         function changeGdbpStyle(gdbp) {
@@ -224,7 +240,7 @@
             //设置查询分页号
             queryParam.pageIndex = 0;
             //设置查询要素数目
-            queryParam.recordNumber = 20;
+            queryParam.recordNumber = 2000;
             //实例化矢量图层查询服务对象
             var queryService = new Zondy.Service.QueryLayerFeature(queryParam, {
                 ip: "192.168.23.113",
@@ -287,33 +303,7 @@
                 map.addLayer(vectorLayer);
                 resultLayerArr.push(vectorLayer);
             }, () => {
-
             });
-        }
-
-
-        //分析成功后的回调
-        function AnalysisSuccess(data) {
-            //停止进度条
-            stopPressBar();
-            if (!data.results) {
-                alert("裁剪失败，请检查参数！");
-            }
-            else {
-                if (data.results.length != 0) {
-                    var resultLayerUrl = data.results[0].Value || data.results[0].value;
-                    // //将结果图层添加到地图视图中显示
-                    // var resultLayer = new Zondy.Map.GdbpLayer("MapGIS IGS BuffAnalyResultLayer", [resultBaseUrl+resultLayerUrl], {
-                    //     ip:`${ip}`,
-                    //     port: `${port}`,     //访问IGServer的端口号，.net版为6163，Java版为8089,
-                    //     isBaseLayer: false
-                    // });
-                    let gdbp = resultBaseUrl+resultLayerUrl;
-                    changeGdbpStyle(gdbp);
-                    // map.addLayer(resultLayer);
-                    // resultLayerArr.push(resultLayer);
-                }
-            }
         }
 
         function deleteAll()

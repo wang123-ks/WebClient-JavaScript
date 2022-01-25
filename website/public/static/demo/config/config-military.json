@@ -1,6 +1,6 @@
 {
-    "name": "cesium",
-    "title": "MapGIS WebClinet-Cesium",
+    "name": "military",
+    "title": "MapGIS WebClinet-Military",
     "mapmode": "military",
     "childs": [
         {
@@ -1126,7 +1126,7 @@
         },
         {
             "name": "军民融合-北斗",
-            "iconfont": "icon_clientanalysis",
+            "iconfont": "iconGNSS",
             "folder": "gnss",
             "leaffolder": true,
             "childs": [
@@ -1168,6 +1168,38 @@
                     "diffcult": "3",
                     "detail": "模拟摧毁萨德等目标",
                     "icon": "boom.gif",
+                    "update": "最后更新时间：2018-05-10"
+                },
+                {
+                    "name": "卫星通信",
+                    "file": "communicate",
+                    "diffcult": "3",
+                    "detail": "卫星通信",
+                    "icon": "communicate.png",
+                    "update": "最后更新时间：2018-05-10"
+                },
+                {
+                    "name": "轨迹跟踪",
+                    "file": "track",
+                    "diffcult": "3",
+                    "detail": "track",
+                    "icon": "track.png",
+                    "update": "最后更新时间：2018-05-10"
+                },
+                {
+                    "name": "多轨迹",
+                    "file": "mutil_bloom",
+                    "diffcult": "3",
+                    "detail": "b",
+                    "icon": "mutil_bloom.png",
+                    "update": "最后更新时间：2018-05-10"
+                },
+                {
+                    "name": "层流信息",
+                    "file": "saastamonien",
+                    "diffcult": "3",
+                    "detail": "saastamonien",
+                    "icon": "saastamonien.png",
                     "update": "最后更新时间：2018-05-10"
                 }
             ]
